@@ -12,6 +12,10 @@ class Etudiant:
         return self.numero == item
 
 
+def getSum(l):
+    return l[0] + getSum(l[1:]) if l else 0
+
+
 class Cours:
     def __init__(self, code, intitule, niveau):
         self.code = code
@@ -93,9 +97,43 @@ class BD:
                     if cours.code == codeCours:
                         note = Note(numeroEtudiant, codeCours, note)
                         self.notesList.append(note)
-        # if self.coursList.__contains__(codeCours) and self.etudiantList.__contains__(numeroEtudiant):
-        #     note = Note(numeroEtudiant, codeCours, note)
-        #     self.notesList.append(note)
+
+    def deleterNote(self, numeroEtudiant, codeCours):
+        for note in self.notesList:
+            if note.codeCours == codeCours and note.numeroEtudiant == numeroEtudiant:
+                self.notesList.remove(note)
+
+    def modifierNote(self, numeroEtudiant, codeCours, nouvelleNote):
+        for note in self.notesList:
+            if note.codeCours == codeCours and note.numeroEtudiant == numeroEtudiant:
+                note.note = nouvelleNote
+
+    def moyenneClasse(self, codeCours):
+        nbEtudiant = len(self.etudiantList)
+        sum = 0
+        for cours in self.notesList:
+            if cours.codeCours == codeCours:
+                sum += cours.note
+        moy = sum / nbEtudiant
+        return moy
+
+    def moyenneEtudiant(self, id):
+        nbCours = 0
+        sum = 0
+        for cours in self.notesList:
+            if cours.numeroEtudiant == id:
+                sum += cours.note
+                nbCours += 1
+        moy = sum / nbCours
+        return moy
+
+    def noteClasse(self, id):
+        l = []
+        for cours in self.notesList:
+            if cours.codeCours == id:
+                l.append(cours)
+
+        return l
 
 
 v = BD()
@@ -103,4 +141,9 @@ v.etudiantList
 []
 e = Etudiant(1, "elio", "maroun", "b")
 v.ajouterEtudiant1(e)
+v.ajouterEtudiant(2, "r", "m", "c")
 v.etudiantList
+c = Cours(11, "java", 1)
+v.ajouterCours1(c)
+v.ajouterNote(1, 11, 14)
+v.ajouterNote(2, 11, 16)
