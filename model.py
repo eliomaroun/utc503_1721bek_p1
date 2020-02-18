@@ -147,3 +147,11 @@ c = Cours(11, "java", 1)
 v.ajouterCours1(c)
 v.ajouterNote(1, 11, 14)
 v.ajouterNote(2, 11, 16)
+# x = filter(lambda x: x == id, v.notesList)
+# x(11)
+
+
+# Consulter les notes d’une classe
+list(filter(lambda x: x.codeCours == 11, v.notesList))
+#  Consulter les notes d’un étudiant
+list(filter(lambda y: y.numeroEtudiant == 1, v.notesList))
